@@ -94,9 +94,7 @@ namespace Clarify.PCL {
 			}
 		}
 
-		/// <summary>
-		/// Validates and processes the given query Url to clean empty slashes
-		/// </summary>
+		/// <summary>Validates and processes the given query Url to clean empty slashes</summary>
 		/// <param name="queryBuilder">The given query Url to process</param>
 		/// <returns>Clean Url as string</returns>
 		internal static string CleanUrl( StringBuilder queryBuilder ) {
@@ -114,20 +112,6 @@ namespace Clarify.PCL {
 
 			//return process url
 			return string.Concat( protocol.Value, query );
-		}
-
-		/// <summary>
-		/// A neat way of parsing string to enum values
-		/// </summary>
-		/// <param name="sEnumValue">String value to parse</param>
-		/// <returns>Parsed enum value in the given type</returns>
-		internal static TEnum ParseEnum<TEnum>( string sEnumValue ) where TEnum : struct {
-			TEnum eTemp;
-			if( Enum.TryParse<TEnum>( sEnumValue, true, out eTemp ) == true )
-				return eTemp;
-
-			throw new ArgumentOutOfRangeException(
-				string.Format( "Value \"{0}\" is not defined in {1}", sEnumValue, typeof( TEnum ) ) );
 		}
 	}
 }
