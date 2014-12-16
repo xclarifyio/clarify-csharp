@@ -18,11 +18,10 @@ namespace Clarify.PCL {
 		internal static string JsonSerialize( object obj ) {
 			if( null == obj ) return null;
 
-			return JsonConvert.SerializeObject( obj, Formatting.None, new JsonSerializerSettings() {
-				Converters = new List<JsonConverter> {
-					new Newtonsoft.Json.Converters.StringEnumConverter()
-                }
-			} );
+			JsonSerializerSettings ConverterSettings = new JsonSerializerSettings();
+			ConverterSettings.Converters.Add( new Newtonsoft.Json.Converters.StringEnumConverter() );
+
+			return JsonConvert.SerializeObject( obj, Formatting.None, ConverterSettings );
 		}
 
 		/// <summary>JSON Deserialization of the given json string.</summary>
@@ -30,8 +29,7 @@ namespace Clarify.PCL {
 		/// <typeparam name="T">The type of the object to desialize into</typeparam>
 		/// <returns>The deserialized object</returns>
 		internal static T JsonDeserialize<T>( string json ) {
-			if( string.IsNullOrWhiteSpace( json ) )
-				return default( T );
+			if( string.IsNullOrWhiteSpace( json ) ) return default( T );
 
 			return JsonConvert.DeserializeObject<T>( json );
 		}
@@ -39,8 +37,7 @@ namespace Clarify.PCL {
 		/// <summary>Replaces template parameters in the given url</summary>
 		/// <param name="queryUrl">The query url string to replace the template parameters</param>
 		/// <param name="parameters">The parameters to replace in the url</param>        
-		internal static void AppendUrlWithTemplateParameters
-			( StringBuilder queryBuilder, IEnumerable<KeyValuePair<string, object>> parameters ) {
+		internal static void AppendUrlWithTemplateParameters( StringBuilder queryBuilder, IEnumerable<KeyValuePair<string, object>> parameters ) {
 			//perform parameter validation
 			if( null == queryBuilder )
 				throw new ArgumentNullException( "queryBuilder" );
@@ -61,13 +58,10 @@ namespace Clarify.PCL {
 			}
 		}
 
-		/// <summary>
-		/// Appends the given set of parameters to the given query string
-		/// </summary>
+		/// <summary>Appends the given set of parameters to the given query string</summary>
 		/// <param name="queryUrl">The query url string to append the parameters</param>
 		/// <param name="parameters">The parameters to append</param>        
-		internal static void AppendUrlWithQueryParameters
-			( StringBuilder queryBuilder, IEnumerable<KeyValuePair<string, object>> parameters ) {
+		internal static void AppendUrlWithQueryParameters( StringBuilder queryBuilder, IEnumerable<KeyValuePair<string, object>> parameters ) {
 			//perform parameter validation
 			if( null == queryBuilder )
 				throw new ArgumentNullException( "queryBuilder" );
